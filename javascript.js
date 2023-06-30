@@ -1,15 +1,16 @@
-const rock = document.getElementById('rock');
-const paper = document.getElementById('paper');
-const scissors = document.getElementById('scissors');
-const result = document.getElementById('result');
-let roundCount = 0
-let playerScore = 0
-let computerScore = 0
+const rockButton = document.getElementById('rock');
+const paperButton = document.getElementById('paper');
+const scissorsButton = document.getElementById('scissors');
+const roundResultDiv = document.getElementById('roundResult');
+const gameResultDiv = document.getElementById('gameResult')
+let roundCount = 0;
+let playerScore = 0;
+let computerScore = 0;
 
 
-rock.addEventListener('click', () => playRound('rock', getComputerChoice()));
-paper.addEventListener('click', () => playRound('paper', getComputerChoice()));
-scissors.addEventListener('click', () => playRound('scissors', getComputerChoice()));
+rockButton.addEventListener('click', () => playRound('rock', getComputerChoice()));
+paperButton.addEventListener('click', () => playRound('paper', getComputerChoice()));
+scissorsButton.addEventListener('click', () => playRound('scissors', getComputerChoice()));
 
 function getComputerChoice() {
     let options = ["rock", "paper", "scissors"];
@@ -29,26 +30,26 @@ function getComputerChoice() {
 
 function playRound(playerSelection, computerSelection) {
     roundCount += 1;
-    if (roundCount > 5) {
+    if (roundCount == 5) {
         roundCount = 0;
         playerScore = 0;
         computerScore = 0;
-        result.textContent = (playerScore == computerScore) ? "Game draw!" : (playerScore > computerScore) ? "Congratulations! You've won the game!" : "Oh no! You've lost the game!";
+        gameResultDiv.textContent = (playerScore == computerScore) ? "Game draw!" : (playerScore > computerScore) ? "Congratulations! You've won the game!" : "Oh no! You've lost the game!";
         return
     }
 
+    gameResultDiv.textContent = ""
+    console.log(playerSelection, computerSelection)
     if (playerSelection == computerSelection) {
-        result.textContent = "draw";
+        roundResultDiv.textContent = "Tie!";
     }
-    if ((playerSelection == "rock" && computerSelection === "scissors") || 
-        (playerSelection == "paper" && computerSelection === "rock") || 
-        (playerSelection == "scissors" && computerSelection === "paper")) {
+    else if ((playerSelection == "rock" && computerSelection == "scissors") || (playerSelection == "paper" && computerSelection == "rock") || (playerSelection == "scissors" && computerSelection == "paper")) {
         playerScore += 1;
-        result.textContent = "win";
+        roundResultDiv.textContent = `Nice one! ${playerSelection} beats ${computerSelection}`;
     }
     else {
         computerScore += 1;
-        result.textContent = "lose";
+        roundResultDiv.textContent = `Bad luck... ${computerSelection} beats ${playerSelection}`;
     }
 }
 
